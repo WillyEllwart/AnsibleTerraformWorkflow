@@ -37,19 +37,19 @@ jobs:
         run: apt-get install -y ansible  
 
       - name: Generiere Ansible Inventory
-        woking-directory: ../ansible
-        run: 
-            echo "[webserver]" > ec2Maschinen.ini
-            terraform output -json >> meineOutput.json
-            jq -r '.webserver.public_ip' meineOutput.json >> ../ansible/ec2Maschinen.ini
+        woking-directory: ./terraform
+        run: |
+          echo "[webserver]" > ec2Maschinen.ini
+          terraform output -json >> meineOutput.json
+          jq -r '.webserver.public_ip' meineOutput.json >> ../ansible/ec2Maschinen.ini
 
       - name: Copy SSH Key
         run: |
-            mkdir -p ~/.ssh
-            echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/NewKp.pem
-            chmod 600 ~/.ssh/NewKp.pem
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/NewKp.pem
+          chmod 600 ~/.ssh/NewKp.pem
     
-        - name: Ansible Playbook ausführen
+      - name: Ansible Playbook ausführen
         working-directory: ./ansible
         run: ansible-playbook -i ec2Maschinen.ini meinPlaybook.yml     
 
@@ -73,7 +73,9 @@ jobs:
           aws-region: eu-central-1
 
       - name: Terraform Init
+        woking-directory: ./terraform
         run: terraform init
 
       - name: Terraform Destroy
+        woking-directory: ./terraform
         run: terraform destroy -auto-approve
