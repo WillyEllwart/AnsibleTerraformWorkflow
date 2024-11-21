@@ -46,5 +46,4 @@ output "instance_public_ips" {
 ## terraform plan
 ## terraform apply
 
-
 ## terraform destroy
