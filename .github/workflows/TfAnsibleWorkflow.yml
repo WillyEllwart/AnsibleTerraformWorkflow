@@ -16,7 +16,8 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
           webhook-type: webhook-trigger
           payload: |
-            text: "GitHub Actions Workflow Triggered"
+            text: "Gib mir notes!!!"
+
       - name: Checkout repo
         uses: actions/checkout@v3
 
